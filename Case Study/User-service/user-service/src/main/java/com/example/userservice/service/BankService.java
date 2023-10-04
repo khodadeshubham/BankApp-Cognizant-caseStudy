@@ -44,15 +44,19 @@ public class BankService {
 	}
 	
 	public BankAccountDAO findUserBankDetails(int uid) {
-		User u = userRepo.findById(uid).get();
+		User u = userRepo.findById(uid).orElse(null);
 		List<BankAccount> bankDetails= bankRepo.getUserBankDetails(u);
 		return new BankAccountDAO(uid, u.getName(), u.getUserName(), u.getAddress(), u.getCountry(), u.getState(), u.getEmail(), u.getContact(), u.getDob(), bankDetails);
 	}
 	
 	public BankAccount depositeMoney(BankAccountUpdateDAO b) {
-		BankAccount account = bankRepo.findById(b.getBankId()).get();
-		Double newBalance = account.getBalance() + b.getMoney();
-		account.setBalance(newBalance);
-		return bankRepo.save(account);
+		BankAccount account = bankRepo.findById(b.getUser_Id()).orElse(null);
+		if(account != null) {
+			Double newBalance = account.getBalance() + b.getMoney();
+			account.setBalance(newBalance);
+			return bankRepo.save(account);
+		}
+		else return null;
+	
 	}
 }

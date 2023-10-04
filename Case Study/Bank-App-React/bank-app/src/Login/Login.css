@@ -1,0 +1,114 @@
+input {
+  height: 35px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+button {
+  width: 120px;
+  outline: none;
+  border: none;
+  padding: 10px 0px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.login__container {
+  display: flex;
+}
+
+.bank-image {
+  height: 100vh;
+  width: 70vw;
+}
+.login,
+.verify,
+.dashboard {
+  width: 30%;
+  min-height: 100vh;
+  padding: 50px 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #feb983;
+}
+
+.signup__container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #feb983; */
+  @supports (background-blend-mode: screen) {
+    background: linear-gradient(#feb983, transparent),
+      linear-gradient(to bottom left, #db81fa, transparent),
+      linear-gradient(to top right, #feb983, transparent);
+    background-blend-mode: screen;
+  }
+}
+.login__form,
+.verify__form {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* .signup__form {
+  margin-top: 20px;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+} */
+.loginBtn,
+.signupBtn,
+.codeBtn {
+  background-color: green;
+  color: #fff;
+  margin-bottom: 15px;
+}
+.signOutBtn {
+  background-color: #c21010;
+  color: #fff;
+}
+.link {
+  cursor: pointer;
+  color: rgb(39, 147, 39);
+}
+.code {
+  width: 50%;
+  text-align: center;
+}
+.verify__form {
+  align-items: center;
+}
+
+.input-container {
+  flex: 0 0 calc(50% - 5px); /* Distribute available space equally between 2 containers, considering margin */
+  margin-right: 10px; /* Add some spacing between input containers */
+  margin-bottom: 10px; /* Add some vertical spacing between rows */
+  box-sizing: border-box; /* Include padding and border in the container's width */
+}
+
+.inner-div {
+  width: 59%;
+  margin: 0 auto; /* Center the inner-div horizontally if desired */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Arrange 10 columns equally */
+  gap: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .login__container,
+  .signup__container,
+  .verify {
+    padding: 30px;
+  }
+}
+
+.error-msg {
+  color: red;
+}

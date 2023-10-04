@@ -1,0 +1,46 @@
+.dashboard-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+
+  @supports (background-blend-mode: screen) {
+    background: linear-gradient(#feb983, transparent),
+      linear-gradient(to bottom left, #db81fa, transparent),
+      linear-gradient(to top right, #feb983, transparent);
+    background-blend-mode: screen;
+  }
+}
+
+.navbar {
+  background-color: #feb983;
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;
+  min-height: 100vh;
+}
+
+.listItem {
+  list-style-type: none;
+  margin: 0 10p;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #feb983;
+  height: 100px;
+}
+
+.module-container {
+  display: flex;
+  justify-content: center;
+  margin-left: 35%;
+}
+
+.module-container-loan {
+  display: flex;
+  justify-content: center;
+  margin-left: 20%;
+}

@@ -3,6 +3,8 @@ package com.example.userservice.entity;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 
@@ -19,6 +21,7 @@ public class User {
 	@Column(name= "userName")
 	private String userName;
 	@Column(name= "password")
+	@JsonIgnore
 	private String password;
 	@Column(name= "address")
 	private String address;
@@ -40,38 +43,43 @@ public class User {
 		super();
 	}
 
+public User(String name, String userName, String password, String address, String country, String state, String email,
+		String contact, Date dob) {
+	super();
+	this.name = name;
+	this.userName = userName;
+	this.password = password;
+	this.address = address;
+	this.country = country;
+	this.state = state;
+	this.email = email;
+	this.contact = contact;
+	this.dob = dob;
+}
 
-	public User(String name, String userName, String password, String address, String country, String state,
-			String email, String contact, Date dob) {
-		super();
-		this.name = name;
-		this.userName = userName;
-		this.password = password;
-		this.address = address;
-		this.country = country;
-		this.state = state;
-		this.email = email;
-		this.contact = contact;
-		this.dob = dob;
-	}
 
 
-	public User(int user_Id, String name, String userName, String password, String address, String country,
-			String state, String email, String contact, Date dob) {
-		super();
-		this.user_Id = user_Id;
-		this.name = name;
-		this.userName = userName;
-		this.password = password;
-		this.address = address;
-		this.country = country;
-		this.state = state;
-		this.email = email;
-		this.contact = contact;
-		this.dob = dob;
-	}
 
-	
+
+public User(int user_Id, String name, String userName, String password, String address, String country, String state,
+		String email, String contact, Date dob) {
+	super();
+	this.user_Id = user_Id;
+	this.name = name;
+	this.userName = userName;
+	this.password = password;
+	this.address = address;
+	this.country = country;
+	this.state = state;
+	this.email = email;
+	this.contact = contact;
+	this.dob = dob;
+}
+
+
+
+
+
 //
 //	public User(int user_Id, String name, String userName, String password, String address, String country,
 //			String state, String email, String contact, Date dob, List<BankAccount> bankDetails) {
@@ -188,6 +196,8 @@ public class User {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
+
+
 
 
 //	public List<BankAccount> getBankDetails() {
