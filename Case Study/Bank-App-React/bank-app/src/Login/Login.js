@@ -6,6 +6,7 @@ import "../Login/Login.css";
 import { BASE_URL } from "../Constants/Constant";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthDetails } from "../Store/Action/AuthAction";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Login() {
   const [userName, setUserName] = useState("");
@@ -14,8 +15,9 @@ function Login() {
   const [passwordError, setPasswordError] = useState("error");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.userLoggedIn);
+  const isAuthenticated = useSelector((state) => state.auth.authDetails);
   const registered = sessionStorage.getItem("registrationDone");
+  const [loader, setLoader] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,17 +40,27 @@ function Login() {
         userName,
         password,
       };
+      setLoader(true);
       axios
         .post(URL, payload)
         .then((resp) => {
-          dispatch(setAuthDetails(resp.data));
-          sessionStorage.setItem("userDetails", JSON.stringify(resp.data));
+          if (resp.status !== 200) {
+            setPasswordError("Invalid Username or Password");
+          } else {
+            dispatch(setAuthDetails(resp.data));
+            sessionStorage.setItem("userDetails", JSON.stringify(resp.data));
+            setUserName("");
+            setPassword("");
+            setLoader(false);
+          }
         })
         .catch((error) => {
+          setPasswordError("Invalid Username or Password");
           dispatch(setAuthDetails(null));
+          setUserName("");
+          setPassword("");
+          setLoader(false);
         });
-      setUserName("");
-      setPassword("");
     }
   };
 
@@ -103,8 +115,14 @@ function Login() {
           >
             {passwordError}
           </p>
-          <button className="loginBtn">SIGN IN</button>
-          <p style={{ visibility: registered === "true" ? "" : "hidden" }}>
+          {loader ? (
+            <button className="loginBtn">
+              <CircularProgress color="inherit" size={20} />
+            </button>
+          ) : (
+            <button className="loginBtn">SIGN IN</button>
+          )}
+          <p>
             Don't have an account?{" "}
             <span className="link" onClick={gotoSignUpPage}>
               Create Account

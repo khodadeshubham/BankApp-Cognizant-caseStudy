@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../Constants/Constant";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function ApplyLoan() {
   const [loanType, setLoanType] = useState("");
@@ -26,6 +27,7 @@ function ApplyLoan() {
   const [currExpErr, setCurrExpErr] = useState("");
   const user = useSelector((state) => state.auth.authDetails.user);
   const [successMsg, setSuccessMsg] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,6 +116,7 @@ function ApplyLoan() {
       };
     }
 
+    setLoader(true);
     axios
       .post(URL, payload)
       .then((resp) => {
@@ -132,6 +135,7 @@ function ApplyLoan() {
           setDesignation("");
           setTotalExp("");
           setCurrExp("");
+          setLoader(false);
         } else {
           alert("Something went wrong");
           setLoanType("");
@@ -147,6 +151,7 @@ function ApplyLoan() {
           setDesignation("");
           setTotalExp("");
           setCurrExp("");
+          setLoader(false);
         }
       })
       .catch((err) => {
@@ -164,6 +169,7 @@ function ApplyLoan() {
         setDesignation("");
         setTotalExp("");
         setCurrExp("");
+        setLoader(false);
       });
   };
   return (
@@ -431,7 +437,13 @@ function ApplyLoan() {
                 {incomeErr}
               </p>
             </div>
-            <button className="signupBtn">Apply</button>
+            {loader ? (
+              <button className="signupBtn">
+                <CircularProgress />
+              </button>
+            ) : (
+              <button className="signupBtn">Apply</button>
+            )}
           </form>
           <p style={{ color: "green" }}>{successMsg}</p>
         </div>

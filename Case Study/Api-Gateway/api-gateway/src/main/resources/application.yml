@@ -19,20 +19,14 @@ spring:
          uri: lb://BANK-SERVICE
          predicates:
            - Path=/api/bank/**
-#         filters:
-#           - AuthenticationFilter
+         filters:
+           - AuthenticationFilter
 
        - id: user-service
          uri: lb://USER-SERVICE
          predicates:
            - Path=/api/user/**
-#         filters:
-#            - SetPath=/user-service
-#            - RewritePath=/user-service/(?<path>.*), /$\{path}
-#            - name: Cors
-#              args:
-#                allowedOrigins: "http://localhost:3000" 
-#         filters:
-#           - AuthenticationFilter
+         filters:
+           - AuthenticationFilter
 
 

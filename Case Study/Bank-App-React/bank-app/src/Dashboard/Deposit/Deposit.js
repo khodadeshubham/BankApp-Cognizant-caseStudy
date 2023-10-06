@@ -29,6 +29,7 @@ function Deposit() {
       axios.put(URL, payload).then((resp) => {
         if (resp.status === 200) {
           setSuccessMsg("Ammount deposited successfully");
+          setAmmount("");
         }
       });
     }

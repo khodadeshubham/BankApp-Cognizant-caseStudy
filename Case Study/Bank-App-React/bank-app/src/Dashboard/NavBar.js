@@ -15,7 +15,7 @@ function Navbar(props) {
   return (
     <div style={{ width: "10%" }}>
       <nav className="navbar">
-        <ul>
+        <ul className="nav-list">
           <li
             onClick={() => props.onOptionChange("overview")}
             className={

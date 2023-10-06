@@ -1,6 +1,8 @@
 package com.example.userservice.service;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,7 +42,10 @@ public class BankService {
 		User newUser = u.getUser();
 		newUser.setPassword(passEndoder.encode(newUser.getPassword()));
 		u.setUser(newUser);
-		return bankRepo.save(u);
+		 BankAccount b=bankRepo.save(u);
+		 b.setAccountNumber(generateTwelveDigitId(b.getAccountId()));
+		
+		 return bankRepo.save(b);
 	}
 	
 	public BankAccountDAO findUserBankDetails(int uid) {
@@ -50,7 +55,9 @@ public class BankService {
 	}
 	
 	public BankAccount depositeMoney(BankAccountUpdateDAO b) {
-		BankAccount account = bankRepo.findById(b.getUser_Id()).orElse(null);
+		User u = userRepo.findById(b.getUser_Id()).orElse(null);
+		BankAccount account = bankRepo.findBankAccountByUser(u);
+		System.out.println(account);
 		if(account != null) {
 			Double newBalance = account.getBalance() + b.getMoney();
 			account.setBalance(newBalance);
@@ -58,5 +65,19 @@ public class BankService {
 		}
 		else return null;
 	
+	}
+	
+	private String generateTwelveDigitId(int integerId) {
+	    if (integerId > 0) {
+	        // Convert the integer ID to a 12-digit format by padding with zeros
+	        String twelveDigitId = String.format("%012d", integerId);
+	        
+	        // Optionally, you can add a prefix to the ID
+	        // For example, if you want "ABC" as a prefix:
+	        // String twelveDigitIdWithPrefix = "ABC" + twelveDigitId;
+	        
+	        return twelveDigitId;
+	    }
+	    return null; // Handle cases where the integer ID is invalid.
 	}
 }

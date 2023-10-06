@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,6 +29,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
+        	ServerHttpRequest request= null;
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
@@ -41,8 +43,12 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 System.out.println(authHeader);
                 try {
 //                    //REST call to AUTH service
-                    template.getForObject("http://user-service:8100/api/user/validate?token=" + authHeader, String.class);
-//                    jwtUtil.validateToken(authHeader);
+//                    template.getForObject("http://user-service:8100/api/user/validate?token=" + authHeader, String.class);
+                    jwtUtil.validateToken(authHeader);
+//                    request = exchange.getRequest()
+//                    		.mutate()
+//                    		.header("authentication", authHeader)
+//                    		.build();
 
                 } catch (Exception e) {
                     System.out.println("invalid access...!");

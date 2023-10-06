@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import { BASE_URL } from "../Constants/Constant";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Register = () => {
   const [fname, setFname] = useState("");
@@ -35,6 +36,7 @@ const Register = () => {
   const [branch, setBranch] = useState("");
   const [isValidated, setIsValidated] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -158,20 +160,24 @@ const Register = () => {
       };
 
       const URL = `${BASE_URL}/user/register`;
+      setLoader(true);
       axios
         .post(URL, data)
         .then((resp) => {
           if (resp.data) {
             setSuccessMsg(true);
             sessionStorage.setItem("registrationDone", true);
+            setLoader(false);
           } else {
             setSuccessMsg("Account creation failed");
             sessionStorage.setItem("registrationDone", false);
+            setLoader(false);
           }
         })
         .catch((err) => {
           setSuccessMsg("Account creation failed");
           sessionStorage.setItem("registrationDone", false);
+          setLoader(false);
         });
     }
   };
@@ -454,7 +460,13 @@ const Register = () => {
                 onChange={(e) => setBranch(e.target.value)}
               />
             </div>
-            <button className="signupBtn">Create Account</button>
+            {loader ? (
+              <button className="signupBtn">
+                <CircularProgress color="inherit" />
+              </button>
+            ) : (
+              <button className="signupBtn">Create Account</button>
+            )}
           </form>
           <p>
             Already have an account?{" "}

@@ -11,10 +11,9 @@ import jakarta.persistence.*;
 public class BankAccount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="account_Number")
-	private Long accountNumber;
-//	@Column(name="accountNumber")
-//	private String accountNumber;
+	private int accountId;
+	@Column(name="accountNumber")
+	private String accountNumber;
 	@Column(name="accountType")
 	private String accountType;
 	@Column(name="branch")
@@ -36,6 +35,7 @@ public class BankAccount {
 	}
 
 	
+
 	public BankAccount(String accountType, String branch, Double balance, String document, String documentNumber,
 			User user) {
 		super();
@@ -48,7 +48,8 @@ public class BankAccount {
 	}
 
 
-	public BankAccount(Long accountNumber, String accountType, String branch, Double balance, String document,
+
+	public BankAccount(String accountNumber, String accountType, String branch, Double balance, String document,
 			String documentNumber, User user) {
 		super();
 		this.accountNumber = accountNumber;
@@ -61,14 +62,43 @@ public class BankAccount {
 	}
 
 
-	public Long getAccountNumber() {
+
+	public BankAccount(int accountId, String accountNumber, String accountType, String branch, Double balance,
+			String document, String documentNumber, User user) {
+		super();
+		this.accountId = accountId;
+		this.accountNumber = accountNumber;
+		this.accountType = accountType;
+		this.branch = branch;
+		this.balance = balance;
+		this.document = document;
+		this.documentNumber = documentNumber;
+		this.user = user;
+	}
+
+
+	public int getAccountId() {
+		return accountId;
+	}
+
+
+
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
+
+
+
+	public String getAccountNumber() {
 		return accountNumber;
 	}
 
 
-	public void setAccountNumber(Long accountNumber) {
+
+	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
+
 
 
 	public String getAccountType() {
@@ -130,7 +160,5 @@ public class BankAccount {
 		this.user = user;
 	}
 
-
-	
 	
 }

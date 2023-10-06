@@ -44,3 +44,15 @@
   justify-content: center;
   margin-left: 20%;
 }
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+}
+
+.active {
+  color: white;
+  text-decoration: underline;
+}

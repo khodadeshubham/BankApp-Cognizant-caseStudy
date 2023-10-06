@@ -58,13 +58,16 @@ public class UserController {
 	 @PostMapping("/login")
 	    public ResponseEntity<Map<String,Object>> getToken(@RequestBody AuthRequest authRequest) {
 	        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
+	        System.out.println(authenticate);
 	        if (authenticate.isAuthenticated()) {
+	        	System.out.println("1");
 	        	Map<String,Object> result = new HashMap<String, Object>();
 	        	result.put("token", bankService.generateToken(authRequest.getUserName()));
 	        	User u = userService.findUserByUserName(authRequest.getUserName());
 	        	result.put("user", u);
 	            return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	        } else {
+	        	System.out.println("2");
 	        	Map<String,Object> result = new HashMap<String, Object>();
 	        	result.put("message", "invalid user");
 	        	return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NOT_FOUND);
@@ -91,6 +94,7 @@ public class UserController {
 	
 	@GetMapping("/userDetails/{uid}")
 	public ResponseEntity<User> getUserDetails(@PathVariable int uid){
+		System.out.println("called");
 		User u= userService.findUser(uid);
 		ResponseEntity<User> resp = new ResponseEntity<User>(u, HttpStatus.OK);
 		return resp;

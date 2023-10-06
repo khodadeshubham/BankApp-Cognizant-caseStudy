@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../Constants/Constant";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Table } from "react-bootstrap";
 
 function LoanDetails() {
   const [data, setData] = useState([]);
@@ -18,11 +19,10 @@ function LoanDetails() {
       .catch((err) => setData([]));
   }, []);
 
-  console.log(data);
   return (
     <div>
-      {data.length > 0 && (
-        <table border="1">
+      {data.length > 0 ? (
+        <Table border={1}>
           <thead>
             <tr>
               <th>Sr. No.</th>
@@ -47,7 +47,9 @@ function LoanDetails() {
               );
             })}
           </tbody>
-        </table>
+        </Table>
+      ) : (
+        <div>You have not applied for any Loan.</div>
       )}
     </div>
   );

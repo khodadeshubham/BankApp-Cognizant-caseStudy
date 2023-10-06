@@ -3,27 +3,34 @@ import { BASE_URL } from "../../Constants/Constant";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "../Overview/Overview.css";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Overview() {
   const userDetails = useSelector((state) => state.auth.authDetails);
   const [accountDetails, setAccountDetails] = useState();
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (userDetails !== null) {
+      setLoader(true);
       const URL = `${BASE_URL}/user/userBankDetails/${userDetails.user.user_Id}`;
       axios
         .get(URL)
         .then((resp) => {
-          console.log(resp.data);
           setAccountDetails(resp.data);
+          setLoader(false);
         })
-        .catch((err) => setAccountDetails());
+        .catch((err) => {
+          setAccountDetails();
+          setLoader(false);
+        });
     }
   }, []);
 
   return (
     <>
-      {accountDetails && (
+      {loader && <CircularProgress />}
+      {!loader && accountDetails && (
         <div className="overview-details">
           <h3>Account Overview</h3>
           <div>
